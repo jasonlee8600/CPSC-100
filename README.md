@@ -1,6 +1,7 @@
 # CPSC-223
-Homework Solutions CPSC 223 (Data Structures and Programming Techniques) - Spring 2022
 
-These are my solutions to the problem sets in Yale's CPSC 223 course on Data Structures and Programming Techniques.
+These are my solutions to the homework assignments in Yale's CPSC 223 course (Data Structures and Programming Techniques).
+
+Coded in C.
 
 Skipped problem sets 6 and 7.
