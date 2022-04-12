@@ -1,0 +1,44 @@
+8.5 Assignment 5, due 2022-03-03 at 23:59
+You may recall that complex numbers are numbers of the form a + bi, where i is defined by the rule i2 =  − 1. Complex numbers are a field, meaning they support the usual arithmetic operations of addition, subtraction, multiplication, and division (by any number that is not 0). The C language provides built-in support for complex numbers, although just as C’s floating-point numbers are only approximations to actual real numbers, C’s complex numbers are only approximation to actual complex numbers.
+
+Hypercomplex numbers are a generalization of complex numbers that add one or more i-like values, along with some equations defining how these new values relate back to the underlying reals. For this assignment, we will consider a special case of hypercomplex numbers, where all our numbers are of the form a + bu, where u is a new number that satisfies u2 = c for some constant real value c. Depending on what value we choose for c, we may get various complex-like number systems, like the complex numbers themselves (c =  − 1), the split-complex numbers (c = 1), or the dual numbers (c = 0).
+
+Most arithmetic on numbers of this form is straightforward. Addition and subtraction can be done componentwise without knowing the value of u2: (a + bu) + (c + du) = (a + c) + (b + d)u, and similarly for subtraction. For multiplication, you can first expand (a + bu)(c + du) as ac + bcu + adu + bdu2 and then use the value for u2 to get rid of the u2 term.
+
+Division is more complicated, but can often be carried out using the same technique used to divide complex numbers. Given a fraction (a + bu)/(c + du), multiplying both numerator and denominator by the conjugate c − du of the denominator gives an expression with denominator (c + du)(c − du) = c2 − d2u2, which turns into a real number when we replace u2 with its value. We can then divide each component of the numerator by this value to obtain a hypercomplex number again. A complication arises if c2 − d2u2 = 0; in this case we are not responsible for returning a sensible answer.
+
+8.5.1 Your task
+Your task will be to implement a library that allows common arithmetic operations in any of these number systems, where the coordinates a and b are stored as doubles. Each number is stored as a struct h, the fields of which you will be able to choose. The library should supply all of the routines listed in this template header file:
+
+You will need to modify this template to produce a new file hypercomplex.h that includes a definition of struct h, which is currently empty in the template file. Other than filling in this definition, you should not change anything significant in hypercomplex.h. You will also need to supply a file hypercomplex.c that implements all of the functions declared in hypercomplex.h.
+
+The value of u2 used for computation is supplied when creating a hypercomplex number using the hPack routine. For operations like hAdd or hMultiply that take multiple hypercomplex arguments, you may assume that this value is the same for both arguments.
+
+We have provided a test program calculator.c that can be compiled together with hypercomplex.c to produce a runnable RPN calculator for hypercomplex numbers. The input commands accepted by this program are described in the comments; very briefly, = followed by two floating-point values will push a number onto the stack, the usual arithmetic operations will perform the operation on the top two stack elements, and p will print the top stack element (without removing it). The value of u2 is provided on the command line when running this program.
+
+Here is a typical session running this program on the terminal that does some computation with standard complex numbers (u2 =  − 1):
+
+$ ./calculator -1.0
+=1 1
+=1 2
+/p  # divide 1+1i by 1+2i and print result
+0.6 -0.2
+=1 2
+*p  # multiply by 1+2i again and see if we get 1+1i
+1 1
+=1 1
+-p  # check for round-off errors
+0 2.22045e-16
+And here is the same computation with dual numbers (u2 = 0):
+
+$ ./calculator 0.0
+=1 1
+=1 2
+/p  # divide 1+1eps by 1+2eps and print result
+1 -1
+=1 2
+*p  # multiply by 1+2eps again and see if we get 1+1eps
+1 1
+=1 1
+-p  # check for round-off errors
+0 0
