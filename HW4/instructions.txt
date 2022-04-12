@@ -1,0 +1,13 @@
+8.4 Assignment 4, due 2022-02-24 at 17:00
+The split.h header file below defines an interface for three functions join, split, and freeSplit.
+
+The split function takes as arguments a null-terminated string and a separator character (represented as an int), returning an array of strings consisting of the substrings obtained by splitting the input string using the given separator character, followed by a null pointer to mark the end of the array. This can be used, for example, to split up a path name into its components: calling split("/c/cs223/bin/submit", '/') should return a six-element array of pointers to the strings "", "c", "cs223", "bin", "submit", followed by a null pointer (0). Note that consecutive occurrences of the separator may produce empty strings in the array: split("////", '/') should also return a six-element array, in which the last element is 0 and the rest of the elements are empty strings "".
+
+The join function is the inverse of split: given an array returned by split, or an array with similar structure (like argv), it concatenates all the strings in the array together into a new string using the given separator in between each consecutive pair. In the special case where the separator is the null character '\0', the strings are concatenated together with no character between them.
+
+Each of these functions will need to use malloc to obtain space to store their return values. The freeSplit function should free any data allocated by split. A simple call to free should free any data allocated by join.
+
+Your task is to provide a file split.c that implements all three functions in split.h.
+
+8.4.1 Testing your assignment
+We have provided a test harness testSplit.c that produces a runnable test program when compiled with gcc -g3 -Wall -o testSplit split.c testSplit.c. Run ./testSplit with no arguments to get a list of options.
