@@ -1,0 +1,12 @@
+8.9 Assignment 9, due 2022-04-07 at 23:59
+8.9.1 An infinite stream data structure
+Your task for this assignment is to implement a data structure representing an infinite stream of characters. Each such stream is accessed through a pointer to a struct stream, an opaque struct. The next character is read from a stream using the streamNext function, which has an interface similar to getc for files, except that it never returns EOF.
+
+There are three constructors for streams:
+
+streamFromString takes a string as its argument, and repeatedly returns the characters in this string, looping back to the start when it runs out. So a stream constructed using streamFromString("ab") would alternate between returning 'a' and 'b'. If called with an empty string as an argument, it returns an infinite sequence of '\0' characters. This function should make a copy of its argument.
+streamInterleave takes two streams and returns characters from each in alternation. So a stream constructed using streamInterleave(streamFromString("a"), streamFromString("b")) should also alternate between returning 'a' and 'b'.
+streamMap takes a function pointer and a stream, and transforms the stream by applying the function to each character. You may assume that the function always returns a value in the range 0..255.
+There is also a single destructor streamDestroy. This should clean up the stream it is applied to, and also recursively destroy any streams used to construct it. You may assume that no stream is ever used more than once when building a more complex stream.
+
+Definitions for these functions are provided in the file stream.h:
