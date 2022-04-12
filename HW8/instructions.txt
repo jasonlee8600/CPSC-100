@@ -1,0 +1,25 @@
+8.8 Assignment 8, due 2022-03-31 at 23:59
+For this assignment, you are to write a decoder for a telegraph-style commercial code.
+
+Commercial entities that communicated by telegram would often use a codebook that represented common phrases or messages with single words. For example, the codebook might specify that MAUVE expands to DELIVER FINE QUALITY COPPER INGOTS, saving 20¢ per use in a telegram costing 5¢ per word. Scans of many such codebooks can be found at https://www.jmcvey.net/cable/scans.htm.
+
+We will not be using a codebook. Instead, each sequence of words contained within a message of the form DEFINE codeword definition STOP will define a new mapping from codeword to definition, so that any subsequent appearance of codeword will be replaced by definition, where definition consists zero or more words. This procedure is not recursive: definition will be reproduced verbatim without further expansion.
+
+For example, if the encoded message is
+
+DEFINE MAUVE DELIVER FINE QUALITY COPPER INGOTS STOP YOU SAID I WILL MAUVE BUT YOU DID NOT MAUVE
+then the decoded message would be
+
+YOU SAID I WILL DELIVER FINE QUALITY COPPER INGOTS BUT YOU DID NOT DELIVER FINE QUALITY COPPER INGOTS 
+In this particular case, the definition didn’t save us any money, but a longer complaint letter might allow for additional uses.
+
+8.8.1 Your task
+You are to write a program expand that takes an encoded telegram from stdin, parses any definitions contained in the telegram, and replaces any defined codewords with their definitions, writing the result to stdout.
+
+You may assume that the input consists only of words consisting of upper-case letters and digits, separated by one or more whitespace characters. The behavior or your program for any other input is undefined.
+
+For your output, you should similarly separate words by whitespace. Any choice of whitespace is acceptable, although making the output a single line of words separated by spaces may maximize verisimilitude at the cost of readability.
+
+As described above, definitions are not expanded recursively. The definition of a codeword both at time of definition and at time of expansion is always treated as a sequence of words that are not checked for codewords. Because commercial codes are intended to be usable by humans, you may also assume that definitions are of length O(1) as a function of the length n of the encoded message. You may assume that all definitions in the input are complete: if DEFINE appears in a message without a matching STOP, the behavior or your program is undefined. You may also assume that the user does not attempt to define DEFINE or STOP.
+
+If more than one definition is given for a codeword, the most recent definition applies. For example, DEFINE X Y STOP X DEFINE X Z STOP X expands to Y Z.
