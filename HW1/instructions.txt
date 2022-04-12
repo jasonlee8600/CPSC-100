@@ -1,0 +1,10 @@
+8.1 Assignment 1, due 2022-02-03 at 17:00
+The purpose of this assignment is to make sure you can test and submit assignments in the Zoo. The assignment itself is not intended to be very hard but might require a bit of thought.
+
+8.1.1 Bureaucratic part
+Make sure that you have an account on the Zoo. This should have been created automatically when you registered for the class, but if not, you will need to contact ITS at cs.support@yale.edu. You will also need a course directory in /c/cs223/class. This should also have been created automatically, but if you have a Zoo account but do not have a course directory, you can create one using the command sudo register cs223 in the Zoo.
+
+You do not need to develop your solution on the Zoo, but you will need to turn it in there, and it will be tested using the compiler on the Zoo. So it’s best to make sure you have access to the Zoo as soon as possible.
+
+8.1.2 Hello, world: A program in honor of Georges Perec
+For this assignment, you are to write a program hello.c that prints the string "Hello, world!", followed by a newline character, to stdout. However, because the character 'l' is easily confused with the characters '1' and '|', and the character 'o' is easily confused with the character '0', your hypothetical employer has forbidden any use of the characters 'l', 'L', '1', '|', 'o', 'O', or '0' in source files, except in lines starting with #include. Your task is to write a program that emits the standard C greeting despite this rule. Your program should also return the standard success code 0 from main to indicate that it completed its task successfully.
