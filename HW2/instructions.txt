@@ -1,0 +1,73 @@
+8.2 Assignment 2, due 2022-02-10 at 17:00
+For this assignment, you are to write a program garble that introduces transposition errors that are just frequent enough to be annoying into an input provided on stdin, sending the results to stdout.
+
+Your program should process the characters in the input in order. When it encounters two consecutive characters that are (a) both lowercase and (b) have numerical ASCII encodings that have the same remainders mod 7, it should swap these characters. All other characters should be passed through intact.
+
+Rule (b) means that most lowercase characters will not be swapped. For example, all of the characters abcde have different remainders mod 7, so for an input
+
+a
+ab
+abc
+abcd
+abcde
+the corresponding output should be
+
+a
+ab
+abc
+abcd
+abcde
+On the other hand, 'a' (ASCII code 97) and 'h' (ASCII code 104) have the same remainder 6 when divided by 7. So on input
+
+a
+ah
+aha
+ahah
+ahaha
+the output should be
+
+a
+ha
+haa
+haha
+hahaa
+Note that once a pair of characters has been swapped, those characters don’t participate in further swaps.
+
+Non-letters and letters that are not lowercase are never swapped, and separate otherwise-swappable pairs. So
+
+Haha, thou knave, I say haha!
+becomes
+
+Hhaa, tohu knvae, I say ahah!
+One check to see if you are applying the rules correctly is that running an input through your program twice should restore the original input.
+
+8.2.1 Recognizing lowercase letters
+The easiest way to recognize a lowercase letter is to use the islower macro. You will need to put the line #include <ctype.h> near the top of your program to get access to this macro. Typical usage:
+
+    if(islower(c)) {
+        printf("%c is a lowercase letter\n", c);
+    } else {
+        printf("%c is not a lowercase letter\n", c);
+    }
+A subtlety is that islower looks at the C locale settings to decide which alphabet it should be using. For example, 'ö' is a perfectly cromulent lowercase letter if your locale is set to Swedish. The test script used for this assignment will force the locale to C, representing the default US English assumptions made in 1970’s-era C, which may cause your program to behave differently from when you run it by hand if your locale is set to something else. If you suspect this is an issue, you can force the locale to C on the command line using
+
+LC_ALL=C ./garble < someInputFile > someOutputFile
+8.2.2 Non-ASCII characters
+Any sequence of bytes is a possible input to your program, so you should not assume that input characters are restricted to the range 0..127 used for ASCII. One particularly troublesome character is 'ÿ', which has numerical value 255 in the common ISO Latin 1 encoding. This will look very much like EOF (usually -1) if you assign both to an 8-bit char type. If you do the usual thing and store the output of getchar in an int, this shouldn’t be a problem.
+
+8.2.3 Testing your assignment
+Some sample inputs and outputs can be found in the directory /c/cs223/Hwk2/testFiles in the Zoo, though you should also feel free to create test inputs of your own. Note that some of the sample files contain non-printing characters that may have odd effects if you send them to your screen. A simple way to test if your program produces the same output as the sample output is to use cmp, for example:
+
+$ ./garble < test.in > tmp
+$ cmp tmp test.out
+If tmp and test.out contain the same characters, cmp will say nothing. Otherwise it will tell you the first position where they differ.
+
+If you want to examine the characters in a binary file, you can use od, as in
+
+$ echo hi > hi.txt
+$ od -t x1 -t c hi.txt
+0000000  68  69  0a
+          h   i  \n
+0000003
+8.2.4 Clarifications
+Two adjacent identical lowercase characters have the same remainder mod 7, and so should be swapped. This swap will not be visible in the output (the characters are identical!) but may block other possible swaps. For example, the input aah passes through unchanged: since the two 'a' characters are swapped, the second 'a' can’t participate in a swap with the 'h'.
