@@ -1,1 +1,33 @@
-Hey
+8.10 Assignment 10, due 2022-04-14 at 23:59
+8.10.1 Greedy trash collecting
+The release of Trash Collector Tenth Anniversary Edition™ has created a demand for automated tools for players who want to revisit the exciting gameplay of their youth without having to deal with the boring parts. The most in-demand tool is a mechanism for inventory management, automatically discarding the least valuable game items in the player’s possession whenever they exceed their total weight limit.
+
+Your task is to write a program inventoryManager that performs this service. The input to your program, presented on stdin, will consist of a single line specifying the weight limit, followed by a sequence of lines, one per item, that specifies the price of the item, its weight, and its name, separated by spaces. Your program should track the set of items acquired at any point, and if the total weight exceeds the weight limit, it should discard the items with the worst price-to-weight ratios until the weights of the remaining items sum to no more than the weight limit. Discarding an item is done by printing out its price, weight, and name to stdout. Your program should exit upon receiving EOF.
+
+You may assume that the total weight limit and the weight and price of each item is a positive integer value that fits in an int. You may assume that the name of each item starts with a non-space character and can be stored as a null-terminated string. This means that the initial input line can be parsed with scanf("%d", ...) and subsequent input lines can be parsed with scanf("%d %d %m[^\n]", ...), but you can use your own input routines if you prefer.
+
+8.10.2 Example
+Suppose your program is given the input:
+
+10
+1 1 Cabbage
+4 1 Skooma
+30 5 Eidar Cheese Wheel
+1 2 Soylent McDovahkiin Burger 
+10 4 Geralt's Wisdom Teeth
+5 1 Amulet of Yendor
+100 8 Orcish Greatsword
+4 3 Potion of Inadequate Healing
+1 1 Apple
+The first line assigns a weight limit of 10. The first four items sum to only 9, but adding Geralt's Wisdom Teeth brings the total weight to 13, which is over the limit. The most worthless item measured by price/weight is the Soylent McDovahkiin Burger at 1/2, so we discard this to bring the weight back down to 11. Discarding the Cabbage then brings us down to 10. Picking up the Amulet of Yendor forces us to drop the next worst item, Geralt's Wisdom Teeth. Next, the Orcish Greatsword fills most of our inventory while having a better price/weight ratio than any of our other possessions, forcing us to flush everything else in order of increasing price/weight ratio. The Potion of Inadequate Healing has a low price/weight ratio and doesn’t fit, so it is discarded immediately. We are left at the end with just the Orcish Greatsword and an Apple, for a total price of 101 and a total weight of 9. The output will look like this:
+
+1 2 Soylent McDovahkiin Burger 
+1 1 Cabbage
+10 4 Geralt's Wisdom Teeth
+4 1 Skooma
+5 1 Amulet of Yendor
+30 5 Eidar Cheese Wheel
+4 3 Potion of Inadequate Healing
+Note that in this particular example, our greedy strategy of dropping items with the worst price/weight ratio first is not optimal, because we could have discarded the Eidar Cheese Wheel earlier and saved the Skooma and Amulet of Yendor to get a total price of 109. But for this assignment, you should abide strictly by the suboptimal greedy strategy despite any temptations to improve on it.
+
+While it did not occur in this example, it may be the case that you are given the option to discard two items with the same price/weight ratio. You may break such ties arbitrarily.
